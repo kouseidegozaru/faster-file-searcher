@@ -8,7 +8,8 @@ def main():
     target_dir_path = 'C:\\Users\\mfh077_user.MEFUREDMN\\Desktop'
     target_file_names = '.txt'
     
-    file_search(target_dir_path, *target_file_names)
+    matched_path_list = file_search(target_dir_path, *target_file_names)
+    list(map(print, matched_path_list))
 
 if __name__ == '__main__':
     main()
