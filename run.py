@@ -8,8 +8,10 @@ def main():
     target_dir_path = 'C:\\Users\\mfh077_user.MEFUREDMN\\Desktop'
     target_file_names = '.txt'
     
-    matched_path_list = file_search(target_dir_path, *target_file_names)
-    list(map(print, matched_path_list))
+    #高階関数を受け取る
+    matched_path_list = list(file_search(target_dir_path, *target_file_names))
+    for path in matched_path_list:print(path)
+
 
 if __name__ == '__main__':
     main()
