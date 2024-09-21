@@ -2,7 +2,7 @@ import os
 import itertools
 
 def is_match(file_name, *args):
-    return all(cond in file_name for cond in args)
+    return all(map(lambda arg: arg in file_name, args))
 
 def convert_path(dir_path, file_name):
     return os.path.join(dir_path, file_name)
