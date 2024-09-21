@@ -10,6 +10,7 @@ def main():
     
     #高階関数を受け取る
     matched_path_list = list(file_search(target_dir_path, *target_file_names))
+    #ファイルパスを出力
     for path in matched_path_list:print(path)
 
 
