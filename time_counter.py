@@ -3,7 +3,7 @@ import datetime
 class timer:
 
     def __init__(self):
-        amount_of_time_seconds = 0
+        self.amount_of_time_seconds = 0
 
     def timecount(self,func):
         def wrapper(*args, **kwargs):
@@ -17,9 +17,11 @@ class timer:
             end_time = datetime.datetime.now()
 
             #実行時間
-            self.amount_of_time_seconds = (end_time - start_time).total_seconds()
+            self.amount_of_time_seconds = self.amount_of_time_seconds + (end_time - start_time).total_seconds()
 
             return result
+
+        return wrapper
         
-        def show_time(self):
-            print(f"Total time taken: {self.amount_of_time_seconds} seconds")
+    def show_time(self):
+        print(f"Total time taken: {self.amount_of_time_seconds} seconds")
