@@ -1,42 +1,24 @@
 import os
-import itertools
 
-def is_match(file_name, *args):
-    return all(map(lambda arg: arg in file_name, args))
+def is_match(file_name, filter_options):
+    # filter_optionsをセットに変換
+    filter_set = set(filter_options)
+    # 全てのフィルター条件を満たすか確認
+    return filter_set.issubset(file_name)
 
-def convert_path(dir_path, file_name):
-    return os.path.join(dir_path, file_name)
-
-def file_search(target_dir_path, *args):
-
-    # 抽出条件
-    filter_options = args
-
-    # ディレクトリ内の全ファイル名を抽出
+def file_search(target_dir_path, *filter_options):
     try:
-        all_file_names = os.listdir(target_dir_path)
-    # アクセス権限がなければ終了
+        #ディレクトリ下の情報を取得する
+        with os.scandir(target_dir_path) as entries:
+            for entry in entries:
+
+                # フィルターを適用する
+                if is_match(entry.name, filter_options):
+                    yield entry.path  # ファイルパスを返す
+
+                # サブディレクトリを探索する
+                if entry.is_dir():
+                    yield from file_search(entry.path, *filter_options)
+
     except PermissionError:
-        return
-
-
-    # ファイル名に条件が含まれるファイル名を抽出
-    matched_file_names = filter(lambda file: is_match(file, *filter_options),all_file_names)
-    # ファイル名をファイルパスに変換
-    matched_file_paths = map(lambda file: convert_path(target_dir_path, file), matched_file_names)
-
-
-    # フルパスに変換
-    all_paths = map(lambda file: convert_path(target_dir_path, file), all_file_names)
-    # ディレクトリのみを抽出
-    dir_paths = filter(lambda path: os.path.isdir(path), all_paths)
-
-
-    # ディレクトリを再帰的に探索
-    sub_matched_paths_result = map(lambda dir_path: file_search(dir_path, *args), dir_paths)
-    # ディレクトリ下の条件が含まれるファイルのパスを列挙
-    sub_matched_file_paths = itertools.chain.from_iterable(sub_matched_paths_result)
-    # ファイルとディレクトリ下の条件が含まれるファイルのパスを列挙
-    all_matched_paths = itertools.chain(matched_file_paths, sub_matched_file_paths)
-
-    return all_matched_paths
+        pass
