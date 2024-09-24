@@ -10,8 +10,10 @@ def main():
     
     #高階関数を受け取る
     matched_path_list = list(file_search(target_dir_path, *target_file_names))
-    #ファイルパスを出力
-    for path in matched_path_list:print(path)
+    # #ファイルパスを出力
+    # for path in matched_path_list:print(path)
+
+    print('検索結果: ', len(matched_path_list), ' 件')
 
 
 if __name__ == '__main__':
