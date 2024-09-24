@@ -22,4 +22,4 @@ def file_search(target_dir_path, *args):
                     yield from file_search(entry.path, *filter_options)
 
     except PermissionError:
-        return
+        pass
